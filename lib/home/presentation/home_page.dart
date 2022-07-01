@@ -19,13 +19,12 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  late VideoPlayerController _controller;
   ScrollController scroller = ScrollController();
   @override
   void initState() {
     scroller.addListener(() {
-      if (scroller.offset == scroller.position.maxScrollExtent) {
-        scroller.position.extentBefore == 100;
-      }
+      if (scroller.offset == scroller.position.maxScrollExtent) {}
       super.initState();
     });
   }
@@ -40,10 +39,7 @@ class _HomepageState extends State<Homepage> {
           var cur = off / 200;
           print(cur);
           print("absolute" + cur.ceil().toString());
-          print("Edge" + scroller.position.atEdge.toString());
-          print("after" + scroller.position.extentAfter.toString());
-          print("Inside" + scroller.position.extentInside.toString());
-          print("Before" + scroller.position.extentBefore.toString());
+          print(scroller.position.atEdge.toString());
 
           print("offset" + scroller.offset.toString());
 
@@ -110,10 +106,10 @@ class _VideoCardState extends State<VideoCard> {
     if (widget.index == scrollIndex) {
       initControler(widget.url, controller);
     }
-    var currentIndex = off / (200 * widget.index);
+    var currentIndex = (off / 200);
     return Container(
       padding: const EdgeInsets.all(10),
-      child: currentIndex == 1
+      child: widget.index == currentIndex
           ? VideoPlayer(controller)
           : Image.network(widget.imageUrl),
     );
