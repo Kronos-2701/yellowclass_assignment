@@ -22,12 +22,8 @@ class _HomepageState extends State<Homepage> {
   ScrollController scroller = ScrollController();
   @override
   void initState() {
-    scroller.addListener(() {
-      if (scroller.offset == scroller.position.maxScrollExtent) {
-        scroller.position.extentBefore == 100;
-      }
-      super.initState();
-    });
+    super.initState();
+    scroller.addListener(() {});
   }
 
   @override
@@ -40,10 +36,7 @@ class _HomepageState extends State<Homepage> {
           var cur = off / 200;
           print(cur);
           print("absolute" + cur.ceil().toString());
-          print("Edge" + scroller.position.atEdge.toString());
-          print("after" + scroller.position.extentAfter.toString());
-          print("Inside" + scroller.position.extentInside.toString());
-          print("Before" + scroller.position.extentBefore.toString());
+          print(scroller.position.atEdge.toString());
 
           print("offset" + scroller.offset.toString());
 
@@ -51,22 +44,16 @@ class _HomepageState extends State<Homepage> {
             scrollIndex = cur.ceil();
           });
 
-          return false;
+          return true;
         },
         child: GridView.builder(
           controller: scroller,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1,
-            mainAxisExtent: 200,
+            mainAxisExtent: 250,
           ),
           itemCount: data.length,
           itemBuilder: (context, index) {
-            // return Container(
-            //     height: 200,
-            //     padding: const EdgeInsets.all(10),
-            //     child: Container(
-            //         width: double.infinity,
-            //         color: index == scrollIndex ? Colors.green : Colors.red));
             return VideoCard(
               url: data[index]['videoUrl'],
               imageUrl: data[index]['coverPicture'],
@@ -94,28 +81,63 @@ class VideoCard extends StatefulWidget {
 }
 
 class _VideoCardState extends State<VideoCard> {
-  late final VideoPlayerController controller;
-  // @override
-  // void initState() {
-  //   controller = VideoPlayerController.network(widget.url)
-  //     ..initialize().then((_) {
-  //       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-  //       setState(() {});
-  //     });
-  //   super.initState();
-  // }
+  late VideoPlayerController controller;
+  @override
+  void initState() {
+    super.initState();
+    // controller = VideoPlayerController.network(
+    //   'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    //   videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+    // );
+
+    // controller.addListener(() {
+    //   setState(() {});
+    // });
+    // controller.setLooping(true);
+    // controller.initialize();
+  }
 
   @override
   Widget build(BuildContext context) {
     if (widget.index == scrollIndex) {
-      initControler(widget.url, controller);
+      print("setted");
+    } else {
+      print("not setted");
     }
-    var currentIndex = off / (200 * widget.index);
+    if (widget.index == scrollIndex) {
+      print("setted 1");
+      Future.delayed(Duration(seconds: 1));
+      controller = VideoPlayerController.network(
+          "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4")
+        ..initialize().then((_) {
+          controller.value.isBuffering == false ? controller.play() : null;
+          // setState(() {});
+          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        });
+
+      // controller.dispose();
+    } else {
+      // if (controller.value != null && controller.value.isInitialized) {
+      //   controller.pause();
+      // }
+
+      // controller.notifyListeners();
+    }
+
     return Container(
-      padding: const EdgeInsets.all(10),
-      child: currentIndex == 1
-          ? VideoPlayer(controller)
-          : Image.network(widget.imageUrl),
-    );
+        padding: const EdgeInsets.all(10),
+        child: widget.index == scrollIndex
+            ? VideoPlayer(controller)
+            : Image.network(widget.imageUrl)
+
+        // ? VideoPlayer(controller)
+        // : Image.network(widget.imageUrl),
+        );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }
