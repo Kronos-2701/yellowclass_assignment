@@ -36,16 +36,18 @@ class _HomepageState extends State<Homepage> {
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
           off = scroller.offset;
-          var cur = off / 200;
+          var cur = off / 250;
           print(cur);
           print("absolute" + cur.ceil().toString());
           print(scroller.position.atEdge.toString());
 
           print("offset" + scroller.offset.toString());
-
-          setState(() {
-            scrollIndex = cur.ceil();
-          });
+          if (scrollIndex != cur.ceil()) {
+            print("chal gya");
+            setState(() {
+              scrollIndex = cur.ceil();
+            });
+          }
 
           return false;
         },
@@ -53,21 +55,21 @@ class _HomepageState extends State<Homepage> {
           controller: scroller,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1,
-            mainAxisExtent: 200,
+            mainAxisExtent: 250,
           ),
           itemCount: data.length,
           itemBuilder: (context, index) {
-            // return Container(
-            //     height: 200,
-            //     padding: const EdgeInsets.all(10),
-            //     child: Container(
-            //         width: double.infinity,
-            //         color: index == scrollIndex ? Colors.green : Colors.red));
-            return VideoCard(
-              url: data[index]['videoUrl'],
-              imageUrl: data[index]['coverPicture'],
-              index: index,
-            );
+            return Container(
+                height: 250,
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                    width: double.infinity,
+                    color: index == scrollIndex ? Colors.green : Colors.red));
+            // return VideoCard(
+            //   url: data[index]['videoUrl'],
+            //   imageUrl: data[index]['coverPicture'],
+            //   index: index,
+            // );
           },
         ),
       ),
@@ -104,6 +106,7 @@ class _VideoCardState extends State<VideoCard> {
   @override
   Widget build(BuildContext context) {
     if (widget.index == scrollIndex) {
+      // Future.delayed(Duration(seconds: )).then(() => {});
       initControler(widget.url, controller);
     }
     var currentIndex = (off / 200);
