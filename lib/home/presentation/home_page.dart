@@ -33,25 +33,25 @@ class _HomepageState extends State<Homepage> {
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
           off = scroller.offset;
-          var cur = off / 200;
+          var cur = off / 300;
           print(cur);
           print("absolute" + cur.ceil().toString());
           print(scroller.position.atEdge.toString());
 
           print("offset" + scroller.offset.toString());
-
-          setState(() {
-            scrollIndex = cur.ceil();
-          });
+          if (scrollIndex != cur.ceil()) {
+            print("chal gya");
+            setState(() {
+              scrollIndex = cur.ceil();
+            });
+          }
 
           return true;
         },
         child: GridView.builder(
           controller: scroller,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 1,
-            mainAxisExtent: 250,
-          ),
+              crossAxisCount: 1, mainAxisExtent: 250, mainAxisSpacing: 50),
           itemCount: data.length,
           itemBuilder: (context, index) {
             return VideoCard(
