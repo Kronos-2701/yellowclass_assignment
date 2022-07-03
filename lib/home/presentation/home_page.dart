@@ -6,9 +6,11 @@ var scrollIndex = 0;
 var off = 0.0;
 initControler(String url, VideoPlayerController controller) {
   controller = VideoPlayerController.network(url)
-    ..initialize().then((_) {
-      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-    });
+    ..initialize().then(
+      (_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      },
+    );
 }
 
 class Homepage extends StatefulWidget {
@@ -107,8 +109,7 @@ class _VideoCardState extends State<VideoCard> {
     if (widget.index == scrollIndex) {
       print("setted 1");
       Future.delayed(Duration(seconds: 1));
-      controller = VideoPlayerController.network(
-          "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4")
+      controller = VideoPlayerController.network(widget.imageUrl)
         ..initialize().then((_) {
           controller.value.isBuffering == false ? controller.play() : null;
           // setState(() {});
