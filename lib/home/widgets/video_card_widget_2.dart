@@ -1,11 +1,10 @@
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-import '../presentation/landing_1_screen.dart';
+import '../presentation/landing_2_screen.dart';
 
-class VideoCardWidget extends StatefulWidget {
-  const VideoCardWidget({
+class VideoCardWidget2 extends StatefulWidget {
+  const VideoCardWidget2({
     Key? key,
     required this.url,
     required this.index,
@@ -15,12 +14,11 @@ class VideoCardWidget extends StatefulWidget {
   final int index;
   final String imageUrl;
   @override
-  State<VideoCardWidget> createState() => _VideoCardWidgetState();
+  State<VideoCardWidget2> createState() => _VideoCardWidget2State();
 }
 
-class _VideoCardWidgetState extends State<VideoCardWidget> {
+class _VideoCardWidget2State extends State<VideoCardWidget2> {
   VideoPlayerController controller = VideoPlayerController.network("");
-  late ChewieController chewieController;
 
   @override
   void initState() {
@@ -29,26 +27,19 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.index == scrollIndex1) {
+    if (widget.index == scrollIndex2) {
       controller = VideoPlayerController.network(widget.url)
         ..initialize().then((_) {
-          // controller.play();
+          controller.play();
         });
-      chewieController = ChewieController(
-        videoPlayerController: controller,
-        aspectRatio: 3 / 2,
-        autoPlay: true,
-        looping: true,
-      );
-      chewieController.play();
     } else {
       controller.pause();
     }
 
     return Container(
       padding: const EdgeInsets.all(10),
-      child: widget.index == scrollIndex1
-          ? Chewie(controller: chewieController)
+      child: widget.index == scrollIndex2
+          ? VideoPlayer(controller)
           : Image.network(widget.imageUrl),
     );
   }

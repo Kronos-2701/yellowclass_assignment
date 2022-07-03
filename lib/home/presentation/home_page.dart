@@ -1,65 +1,57 @@
-import 'dart:async';
-
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:yellowclass_assignment/home/presentation/landing_1_screen.dart';
+import 'package:yellowclass_assignment/home/presentation/landing_2_screen.dart';
 
-import 'package:yellowclass_assignment/home/data/json_data.dart';
-
-import '../widgets/video_card_widget.dart';
-
-var scrollIndex = -1;
-var off = 0.0;
-
-class Homepage extends StatefulWidget {
-  const Homepage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomepageState extends State<Homepage> {
-  ScrollController scroller = ScrollController();
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  late TabController controller;
+
   @override
   void initState() {
     super.initState();
-    scroller.addListener(() {});
+    controller = TabController(
+      length: 2,
+      vsync: this,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
-      appBar: AppBar(),
-      body: NotificationListener<ScrollNotification>(
-        onNotification: (scrollNotification) {
-          off = scroller.offset;
-          var cur = off / 270;
-
-          Timer(const Duration(milliseconds: 600), () {
-            if (scrollIndex != cur.ceil()) {
-              if (mounted) {
-                setState(() {
-                  scrollIndex = cur.ceil();
-                });
-              }
-            }
-          });
-
-          return true;
-        },
-        child: GridView.builder(
-          controller: scroller,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1, mainAxisExtent: 250, mainAxisSpacing: 20),
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            return VideoCardWidget(
-              url: data[index]['videoUrl'],
-              imageUrl: data[index]['coverPicture'],
-              index: index,
-            );
-          },
+      appBar: AppBar(
+        title: Text('Yellow Class'),
+        backgroundColor: Colors.red[800],
+        bottom: TabBar(
+          controller: controller,
+          dragStartBehavior: DragStartBehavior.down,
+          tabs: [
+            Tab(
+              icon: Icon(Icons.beach_access_sharp),
+            ),
+            Tab(
+              icon: Icon(Icons.brightness_5_sharp),
+            ),
+          ],
         ),
       ),
+      body: TabBarView(
+        controller: controller,
+        children: [Landing1(), Landing2()],
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

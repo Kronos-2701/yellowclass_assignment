@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const Homepage();
+        return const HomePage();
       }));
     });
     super.initState();
@@ -29,6 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
         height: double.infinity,
         color: Colors.grey,
         child: SvgPicture.network(
+            width: 50,
+            height: 50,
             "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg"));
   }
 }
