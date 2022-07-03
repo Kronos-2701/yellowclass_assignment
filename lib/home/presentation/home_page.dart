@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+
 import 'package:yellowclass_assignment/home/data/json_data.dart';
 
 import '../widgets/video_card_widget.dart';
@@ -28,13 +27,14 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       appBar: AppBar(),
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
           off = scroller.offset;
-          var cur = off / 300;
+          var cur = off / 270;
 
-          Timer(const Duration(milliseconds: 700), () {
+          Timer(const Duration(milliseconds: 600), () {
             if (scrollIndex != cur.ceil()) {
               if (mounted) {
                 setState(() {
@@ -49,7 +49,7 @@ class _HomepageState extends State<Homepage> {
         child: GridView.builder(
           controller: scroller,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1, mainAxisExtent: 280, mainAxisSpacing: 20),
+              crossAxisCount: 1, mainAxisExtent: 250, mainAxisSpacing: 20),
           itemCount: data.length,
           itemBuilder: (context, index) {
             return VideoCardWidget(

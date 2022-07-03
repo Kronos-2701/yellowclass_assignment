@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import 'package:yellowclass_assignment/home/presentation/home_page.dart';
 import 'package:yellowclass_assignment/spalsh_screen.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
