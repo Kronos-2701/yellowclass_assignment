@@ -6,7 +6,7 @@ import 'package:yellowclass_assignment/home/data/json_data.dart';
 
 import '../widgets/video_card_widget.dart';
 
-var scrollIndex = -1;
+var scrollIndex = 0;
 var off = 0.0;
 
 class Homepage extends StatefulWidget {
@@ -27,12 +27,16 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
-      appBar: AppBar(),
+      backgroundColor: Colors.grey[800],
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Yellow Class"),
+        backgroundColor: Colors.red[800],
+      ),
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
           off = scroller.offset;
-          var cur = off / 270;
+          var cur = off / 255;
 
           Timer(const Duration(milliseconds: 600), () {
             if (scrollIndex != cur.ceil()) {
@@ -49,7 +53,7 @@ class _HomepageState extends State<Homepage> {
         child: GridView.builder(
           controller: scroller,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1, mainAxisExtent: 250, mainAxisSpacing: 20),
+              crossAxisCount: 1, mainAxisExtent: 250, mainAxisSpacing: 5),
           itemCount: data.length,
           itemBuilder: (context, index) {
             return VideoCardWidget(

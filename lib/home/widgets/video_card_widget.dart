@@ -46,10 +46,11 @@ class _VideoCardWidgetState extends State<VideoCardWidget> {
     }
 
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 4),
       child: widget.index == scrollIndex
           ? Chewie(controller: chewieController)
-          : Image.network(widget.imageUrl),
+          : AspectRatio(
+              aspectRatio: 2 / 3, child: Image.network(widget.imageUrl)),
     );
   }
 

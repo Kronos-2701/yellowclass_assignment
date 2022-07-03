@@ -28,7 +28,13 @@ class _SplashScreenState extends State<SplashScreen> {
         width: double.infinity,
         height: double.infinity,
         color: Colors.grey,
-        child: SvgPicture.network(
-            "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg"));
+        child: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.4,
+            height: MediaQuery.of(context).size.height * 0.2,
+            child: SvgPicture.network(
+                "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg"),
+          ),
+        ));
   }
 }
