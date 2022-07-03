@@ -1,3 +1,4 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:yellowclass_assignment/constant_data/json_data.dart';
@@ -36,16 +37,19 @@ class _HomepageState extends State<Homepage> {
         onNotification: (scrollNotification) {
           off = scroller.offset;
           var cur = off / 300;
-          print(cur);
-          print("absolute" + cur.ceil().toString());
-          print(scroller.position.atEdge.toString());
+          // print(cur.ceil());
+          // print("absolute" + cur.ceil().toString());
+          // print(scroller.position.atEdge.toString());
 
-          print("offset" + scroller.offset.toString());
+          // print("offset" + scroller.offset.toString());
           if (scrollIndex != cur.ceil()) {
-            print("chal gya");
-            setState(() {
-              scrollIndex = cur.ceil();
-            });
+            // print("chal gya");
+
+            if (mounted) {
+              setState(() {
+                scrollIndex = cur.ceil();
+              });
+            }
           }
 
           return true;
@@ -83,46 +87,22 @@ class VideoCard extends StatefulWidget {
 }
 
 class _VideoCardState extends State<VideoCard> {
-  late VideoPlayerController controller;
+  VideoPlayerController controller = VideoPlayerController.network("");
+  late ChewieController chewieController;
   @override
   void initState() {
     super.initState();
-    // controller = VideoPlayerController.network(
-    //   'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-    //   videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-    // );
-
-    // controller.addListener(() {
-    //   setState(() {});
-    // });
-    // controller.setLooping(true);
-    // controller.initialize();
   }
 
   @override
   Widget build(BuildContext context) {
     if (widget.index == scrollIndex) {
-      print("setted");
-    } else {
-      print("not setted");
-    }
-    if (widget.index == scrollIndex) {
-      print("setted 1");
-      Future.delayed(Duration(seconds: 1));
-      controller = VideoPlayerController.network(widget.imageUrl)
+      controller = VideoPlayerController.network(widget.url)
         ..initialize().then((_) {
-          controller.value.isBuffering == false ? controller.play() : null;
-          // setState(() {});
-          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+          controller.play();
         });
-
-      // controller.dispose();
     } else {
-      // if (controller.value != null && controller.value.isInitialized) {
-      //   controller.pause();
-      // }
-
-      // controller.notifyListeners();
+      controller.pause();
     }
 
     return Container(
@@ -136,9 +116,9 @@ class _VideoCardState extends State<VideoCard> {
         );
   }
 
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   controller.dispose();
+  //   super.dispose();
+  // }
 }
